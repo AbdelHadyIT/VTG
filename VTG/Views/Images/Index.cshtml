@@ -1,0 +1,51 @@
+﻿@model IEnumerable<VTG.Models.Image>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/adminl_ayout.cshtml";
+}
+<div class="container body-content">
+    <h2>Index</h2>
+
+    <p>
+        @Html.ActionLink("Back to Landmarks","Index","Landmarks", new { regionId = ViewBag.RegionId },null) |
+        @Html.ActionLink("Create New", "Create" , new { landmarkId = ViewBag.LandmarkId , regionId = ViewBag.RegionId })
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Photo)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Landmark.Name)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @{ 
+                        var path = item.Photo;
+                    }
+                    @if (path != null)
+                    {
+                        <img src="@Url.Content(item.Photo)" alt="Image" class="img-fluid" />
+                    }                    
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Landmark.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { imageId = item.Id, landmarkId = item.LandmarkId , regionId = item.RegionId }) |
+                    @Html.ActionLink("Details", "Details", new { imageId = item.Id, landmarkId = item.LandmarkId, regionId = item.RegionId }) |
+                    @Html.ActionLink("Delete", "Delete", new { imageId = item.Id, landmarkId = item.LandmarkId, regionId = item.RegionId })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

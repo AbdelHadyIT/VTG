@@ -1,0 +1,602 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="dbVTGModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="FName" Type="nvarchar(max)" />
+          <Property Name="LName" Type="nvarchar(max)" />
+          <Property Name="Gender" Type="nvarchar(max)" />
+          <Property Name="ProfileImage" Type="nvarchar(max)" />
+          <Property Name="Birthday" Type="datetime" />
+          <Property Name="Country" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Evaluations">
+          <Key>
+            <PropertyRef Name="TouristId" />
+            <PropertyRef Name="RegionId" />
+          </Key>
+          <Property Name="TouristId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RegionId" Type="bigint" Nullable="false" />
+          <Property Name="Rating" Type="int" />
+          <Property Name="OccuredAt" Type="datetime" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="Text" Type="ntext" />
+        </EntityType>
+        <EntityType Name="Images">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="LandmarkId" />
+            <PropertyRef Name="RegionId" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Photo" Type="nvarchar" MaxLength="255" />
+          <Property Name="LandmarkId" Type="bigint" Nullable="false" />
+          <Property Name="RegionId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Landmarks">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="RegionId" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="ntext" />
+          <Property Name="RegionId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Organize">
+          <Key>
+            <PropertyRef Name="TourPlanId" />
+            <PropertyRef Name="RegionId" />
+            <PropertyRef Name="ToursitId" />
+          </Key>
+          <Property Name="Rank" Type="int" Nullable="false" />
+          <Property Name="TourPlanId" Type="bigint" Nullable="false" />
+          <Property Name="RegionId" Type="bigint" Nullable="false" />
+          <Property Name="ToursitId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TouristRegions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Lat" Type="float" Nullable="false" />
+          <Property Name="Lng" Type="float" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="ReservationPrice" Type="float" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="Details" Type="ntext" />
+          <Property Name="Rating" Type="float" />
+          <Property Name="GeoType" Type="nvarchar" MaxLength="50" />
+          <Property Name="RegionImage" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="TourPlans">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="TouristId" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Balance" Type="float" />
+          <Property Name="TouristId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="GeoType" Type="nvarchar" MaxLength="50" />
+          <Property Name="FlightDuration" Type="int" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="LName" Type="nvarchar(max)" />
+          <Property Name="PlanImage" Type="nvarchar(max)" />
+          <Property Name="Country" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <Association Name="FK_Evaluations_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Evaluations" Type="Self.Evaluations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Evaluations">
+              <PropertyRef Name="TouristId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Evaluations_TouristRegions">
+          <End Role="TouristRegions" Type="Self.TouristRegions" Multiplicity="1" />
+          <End Role="Evaluations" Type="Self.Evaluations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TouristRegions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Evaluations">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Images_Landmarks">
+          <End Role="Landmarks" Type="Self.Landmarks" Multiplicity="1" />
+          <End Role="Images" Type="Self.Images" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Landmarks">
+              <PropertyRef Name="Id" />
+              <PropertyRef Name="RegionId" />
+            </Principal>
+            <Dependent Role="Images">
+              <PropertyRef Name="LandmarkId" />
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_land_mark_Tourist_Region">
+          <End Role="TouristRegions" Type="Self.TouristRegions" Multiplicity="1" />
+          <End Role="Landmarks" Type="Self.Landmarks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TouristRegions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Landmarks">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Organize_Tourist_Region">
+          <End Role="TouristRegions" Type="Self.TouristRegions" Multiplicity="1" />
+          <End Role="Organize" Type="Self.Organize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TouristRegions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Organize">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Organize_TourPlans">
+          <End Role="TourPlans" Type="Self.TourPlans" Multiplicity="1" />
+          <End Role="Organize" Type="Self.Organize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TourPlans">
+              <PropertyRef Name="Id" />
+              <PropertyRef Name="TouristId" />
+            </Principal>
+            <Dependent Role="Organize">
+              <PropertyRef Name="TourPlanId" />
+              <PropertyRef Name="ToursitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TourPlans_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="TourPlans" Type="Self.TourPlans" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TourPlans">
+              <PropertyRef Name="TouristId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbVTGModelStoreContainer">
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Evaluations" EntityType="Self.Evaluations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Landmarks" EntityType="Self.Landmarks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Organize" EntityType="Self.Organize" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TouristRegions" EntityType="Self.TouristRegions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TourPlans" EntityType="Self.TourPlans" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Evaluations_AspNetUsers" Association="Self.FK_Evaluations_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Evaluations" EntitySet="Evaluations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Evaluations_TouristRegions" Association="Self.FK_Evaluations_TouristRegions">
+            <End Role="TouristRegions" EntitySet="TouristRegions" />
+            <End Role="Evaluations" EntitySet="Evaluations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Images_Landmarks" Association="Self.FK_Images_Landmarks">
+            <End Role="Landmarks" EntitySet="Landmarks" />
+            <End Role="Images" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK_land_mark_Tourist_Region" Association="Self.FK_land_mark_Tourist_Region">
+            <End Role="TouristRegions" EntitySet="TouristRegions" />
+            <End Role="Landmarks" EntitySet="Landmarks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Organize_Tourist_Region" Association="Self.FK_Organize_Tourist_Region">
+            <End Role="TouristRegions" EntitySet="TouristRegions" />
+            <End Role="Organize" EntitySet="Organize" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Organize_TourPlans" Association="Self.FK_Organize_TourPlans">
+            <End Role="TourPlans" EntitySet="TourPlans" />
+            <End Role="Organize" EntitySet="Organize" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TourPlans_AspNetUsers" Association="Self.FK_TourPlans_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="TourPlans" EntitySet="TourPlans" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbVTGModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="dbVTGEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetUsers" EntityType="dbVTGModel.AspNetUser" />
+          <EntitySet Name="TouristRegions" EntityType="dbVTGModel.TouristRegion" />
+          <EntitySet Name="Organizes" EntityType="dbVTGModel.Organize" />
+          <AssociationSet Name="FK_Organize_Tourist_Region" Association="dbVTGModel.FK_Organize_Tourist_Region">
+            <End Role="TouristRegion" EntitySet="TouristRegions" />
+            <End Role="Organize" EntitySet="Organizes" />
+          </AssociationSet>
+          <EntitySet Name="Landmarks" EntityType="dbVTGModel.Landmark" />
+          <AssociationSet Name="FK_land_mark_Tourist_Region" Association="dbVTGModel.FK_land_mark_Tourist_Region">
+            <End Role="TouristRegion" EntitySet="TouristRegions" />
+            <End Role="Landmark" EntitySet="Landmarks" />
+          </AssociationSet>
+          <EntitySet Name="Images" EntityType="dbVTGModel.Image" />
+          <AssociationSet Name="FK_Images_Landmarks" Association="dbVTGModel.FK_Images_Landmarks">
+            <End Role="Landmark" EntitySet="Landmarks" />
+            <End Role="Image" EntitySet="Images" />
+          </AssociationSet>
+          <EntitySet Name="Evaluations" EntityType="dbVTGModel.Evaluation" />
+          <AssociationSet Name="FK_Evaluations_AspNetUsers" Association="dbVTGModel.FK_Evaluations_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Evaluation" EntitySet="Evaluations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Evaluations_TouristRegions" Association="dbVTGModel.FK_Evaluations_TouristRegions">
+            <End Role="TouristRegion" EntitySet="TouristRegions" />
+            <End Role="Evaluation" EntitySet="Evaluations" />
+          </AssociationSet>
+          <EntitySet Name="TourPlans" EntityType="dbVTGModel.TourPlan" />
+          <AssociationSet Name="FK_TourPlans_AspNetUsers" Association="dbVTGModel.FK_TourPlans_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="TourPlan" EntitySet="TourPlans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Organize_TourPlans" Association="dbVTGModel.FK_Organize_TourPlans">
+            <End Role="TourPlan" EntitySet="TourPlans" />
+            <End Role="Organize" EntitySet="Organizes" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="FName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProfileImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Birthday" Type="DateTime" Precision="3" />
+          <Property Name="Country" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Evaluations" Relationship="dbVTGModel.FK_Evaluations_AspNetUsers" FromRole="AspNetUser" ToRole="Evaluation" />
+          <NavigationProperty Name="TourPlans" Relationship="dbVTGModel.FK_TourPlans_AspNetUsers" FromRole="AspNetUser" ToRole="TourPlan" />
+        </EntityType>
+        <EntityType Name="TouristRegion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Lat" Type="Double" Nullable="false" />
+          <Property Name="Lng" Type="Double" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="ReservationPrice" Type="Double" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Rating" Type="Double" />
+          <Property Name="GeoType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Organizes" Relationship="dbVTGModel.FK_Organize_Tourist_Region" FromRole="TouristRegion" ToRole="Organize" />
+          <NavigationProperty Name="Landmarks" Relationship="dbVTGModel.FK_land_mark_Tourist_Region" FromRole="TouristRegion" ToRole="Landmark" />
+          <NavigationProperty Name="Evaluations" Relationship="dbVTGModel.FK_Evaluations_TouristRegions" FromRole="TouristRegion" ToRole="Evaluation" />
+          <Property Name="RegionImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Organize">
+          <Key>
+            <PropertyRef Name="TourPlanId" />
+            <PropertyRef Name="RegionId" />
+            <PropertyRef Name="ToursitId" />
+          </Key>
+          <Property Name="Rank" Type="Int32" Nullable="false" />
+          <Property Name="TourPlanId" Type="Int64" Nullable="false" />
+          <Property Name="RegionId" Type="Int64" Nullable="false" />
+          <Property Name="ToursitId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TouristRegion" Relationship="dbVTGModel.FK_Organize_Tourist_Region" FromRole="Organize" ToRole="TouristRegion" />
+          <NavigationProperty Name="TourPlan" Relationship="dbVTGModel.FK_Organize_TourPlans" FromRole="Organize" ToRole="TourPlan" />
+        </EntityType>
+        <Association Name="FK_Organize_Tourist_Region">
+          <End Type="dbVTGModel.TouristRegion" Role="TouristRegion" Multiplicity="1" />
+          <End Type="dbVTGModel.Organize" Role="Organize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TouristRegion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Organize">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Landmark">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="RegionId" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RegionId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="TouristRegion" Relationship="dbVTGModel.FK_land_mark_Tourist_Region" FromRole="Landmark" ToRole="TouristRegion" />
+          <NavigationProperty Name="Images" Relationship="dbVTGModel.FK_Images_Landmarks" FromRole="Landmark" ToRole="Image" />
+        </EntityType>
+        <Association Name="FK_land_mark_Tourist_Region">
+          <End Type="dbVTGModel.TouristRegion" Role="TouristRegion" Multiplicity="1" />
+          <End Type="dbVTGModel.Landmark" Role="Landmark" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TouristRegion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Landmark">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="LandmarkId" />
+            <PropertyRef Name="RegionId" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Photo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="LandmarkId" Type="Int64" Nullable="false" />
+          <Property Name="RegionId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Landmark" Relationship="dbVTGModel.FK_Images_Landmarks" FromRole="Image" ToRole="Landmark" />
+        </EntityType>
+        <Association Name="FK_Images_Landmarks">
+          <End Type="dbVTGModel.Landmark" Role="Landmark" Multiplicity="1" />
+          <End Type="dbVTGModel.Image" Role="Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Landmark">
+              <PropertyRef Name="Id" />
+              <PropertyRef Name="RegionId" />
+            </Principal>
+            <Dependent Role="Image">
+              <PropertyRef Name="LandmarkId" />
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Evaluation">
+          <Key>
+            <PropertyRef Name="TouristId" />
+            <PropertyRef Name="RegionId" />
+          </Key>
+          <Property Name="TouristId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="RegionId" Type="Int64" Nullable="false" />
+          <Property Name="Rating" Type="Int32" />
+          <Property Name="OccuredAt" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Computed" Precision="3" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="dbVTGModel.FK_Evaluations_AspNetUsers" FromRole="Evaluation" ToRole="AspNetUser" />
+          <NavigationProperty Name="TouristRegion" Relationship="dbVTGModel.FK_Evaluations_TouristRegions" FromRole="Evaluation" ToRole="TouristRegion" />
+        </EntityType>
+        <Association Name="FK_Evaluations_AspNetUsers">
+          <End Type="dbVTGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="dbVTGModel.Evaluation" Role="Evaluation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Evaluation">
+              <PropertyRef Name="TouristId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Evaluations_TouristRegions">
+          <End Type="dbVTGModel.TouristRegion" Role="TouristRegion" Multiplicity="1" />
+          <End Type="dbVTGModel.Evaluation" Role="Evaluation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TouristRegion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Evaluation">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TourPlan">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="TouristId" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Balance" Type="Double" />
+          <Property Name="TouristId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="GeoType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FlightDuration" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlanImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="dbVTGModel.FK_TourPlans_AspNetUsers" FromRole="TourPlan" ToRole="AspNetUser" />
+          <NavigationProperty Name="Organizes" Relationship="dbVTGModel.FK_Organize_TourPlans" FromRole="TourPlan" ToRole="Organize" />
+        </EntityType>
+        <Association Name="FK_TourPlans_AspNetUsers">
+          <End Type="dbVTGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="dbVTGModel.TourPlan" Role="TourPlan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TourPlan">
+              <PropertyRef Name="TouristId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Organize_TourPlans">
+          <End Type="dbVTGModel.TourPlan" Role="TourPlan" Multiplicity="1" />
+          <End Type="dbVTGModel.Organize" Role="Organize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TourPlan">
+              <PropertyRef Name="Id" />
+              <PropertyRef Name="TouristId" />
+            </Principal>
+            <Dependent Role="Organize">
+              <PropertyRef Name="TourPlanId" />
+              <PropertyRef Name="ToursitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbVTGModelStoreContainer" CdmEntityContainer="dbVTGEntities">
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="dbVTGModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="ProfileImage" ColumnName="ProfileImage" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="LName" ColumnName="LName" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TouristRegions">
+            <EntityTypeMapping TypeName="dbVTGModel.TouristRegion">
+              <MappingFragment StoreEntitySet="TouristRegions">
+                <ScalarProperty Name="RegionImage" ColumnName="RegionImage" />
+                <ScalarProperty Name="GeoType" ColumnName="GeoType" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="Details" ColumnName="Details" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="ReservationPrice" ColumnName="ReservationPrice" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Lng" ColumnName="Lng" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Organizes">
+            <EntityTypeMapping TypeName="dbVTGModel.Organize">
+              <MappingFragment StoreEntitySet="Organize">
+                <ScalarProperty Name="ToursitId" ColumnName="ToursitId" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="TourPlanId" ColumnName="TourPlanId" />
+                <ScalarProperty Name="Rank" ColumnName="Rank" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Landmarks">
+            <EntityTypeMapping TypeName="dbVTGModel.Landmark">
+              <MappingFragment StoreEntitySet="Landmarks">
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Images">
+            <EntityTypeMapping TypeName="dbVTGModel.Image">
+              <MappingFragment StoreEntitySet="Images">
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="LandmarkId" ColumnName="LandmarkId" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Evaluations">
+            <EntityTypeMapping TypeName="dbVTGModel.Evaluation">
+              <MappingFragment StoreEntitySet="Evaluations">
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="OccuredAt" ColumnName="OccuredAt" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="TouristId" ColumnName="TouristId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TourPlans">
+            <EntityTypeMapping TypeName="dbVTGModel.TourPlan">
+              <MappingFragment StoreEntitySet="TourPlans">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="PlanImage" ColumnName="PlanImage" />
+                <ScalarProperty Name="LName" ColumnName="LName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="FlightDuration" ColumnName="FlightDuration" />
+                <ScalarProperty Name="GeoType" ColumnName="GeoType" />
+                <ScalarProperty Name="TouristId" ColumnName="TouristId" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

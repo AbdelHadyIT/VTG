@@ -1,0 +1,32 @@
+﻿@using VTG.Models
+@using Microsoft.AspNet.Identity
+@{
+    ApplicationDbContext db = new ApplicationDbContext();
+    string currentUserId = User.Identity.GetUserId();
+    ApplicationUser currentUser = db.Users.Find(currentUserId);
+}
+@if (Request.IsAuthenticated)
+{
+    <div class="top-header-left">
+        <ul>
+            <li style="display:block"><a href="#"><span> </span> Hello: @currentUser.UserName</a></li>
+            <li style="display:block">
+                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <a href="javascript:document.getElementById('logoutForm').submit()"><span> </span> Logout</a>
+                }
+            </li>
+            
+        </ul>
+    </div>
+}
+else
+{
+    <div class="top-header-left">
+        <ul>
+            <li style="display:block"><span> </span>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "" })</li>
+            <li style="display:block"><p><span> </span>Not a Member ? </p>&nbsp;@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "reg" })</li>
+        </ul>
+    </div>
+}

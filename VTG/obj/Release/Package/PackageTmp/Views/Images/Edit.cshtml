@@ -1,0 +1,47 @@
+﻿@model VTG.Models.Image
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/adminl_ayout.cshtml";
+}
+<div class="container body-content">
+    <h2>Edit</h2>
+
+    @using (Html.BeginForm("Edit","Images",FormMethod.Post,new { enctype = "multipart/form-data" ,@class ="form-horizontal" ,role="form"}))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Image</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <label class="btn btn-primary btn-blok">
+                        Browse&hellip;<input type="file" id="photo" name="photo" style="display: none" />
+                    </label>
+                    @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @Html.HiddenFor(model => model.LandmarkId)
+            @Html.HiddenFor(model => model.RegionId)
+
+            <!--oldPhoto to store the path of image before Editing for Deleted from folder-->
+            <input type="text" id="oldPhoto" name="oldPhoto" style="display: none" value="@Model.Photo"/>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index", new { landmarkId = Model.LandmarkId, regionId = Model.RegionId })
+    </div>
+</div>

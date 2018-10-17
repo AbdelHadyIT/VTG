@@ -1,0 +1,74 @@
+﻿
+@{    Layout = "~/Views/Shared/adminl_ayout.cshtml";
+
+    ViewBag.Title = "charts";
+
+
+}
+@using VTG.Models;
+<script>
+            var old = @Html.Raw(Json.Encode(ViewBag.old));
+
+    var reagionsnames=@Html.Raw(Json.Encode(ViewBag.regnames));
+    var reagioncount=@Html.Raw(Json.Encode(ViewBag.regcount));
+
+</script>
+<input type="hidden" value="@ViewBag.child" id="a" />
+<input type="hidden" value="@ViewBag.man" id="b" />
+<input type="hidden" value="@ViewBag.older" id="c" />
+<section class="charts">
+    <div class="container-fluid">
+        <!-- Page Header-->
+        
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card line-chart-example">
+                    <div class="card-header d-flex align-items-center">
+                        <h4>Syria tourism rate </h4>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="lineChartExample"></canvas>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card bar-chart-example">
+                    <div class="card-header d-flex align-items-center">
+                        <h4>top choice of tourist reagions </h4>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="barChartExample"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card pie-chart-example">
+                    <div class="card-header d-flex align-items-center">
+                        <h4>tourists age averages </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="pieChartExample" style="display:block"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card polar-chart-example">
+                    <div class="card-header d-flex align-items-center">
+                        <h4>map heat for desirable regions</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="polarChartExample"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+

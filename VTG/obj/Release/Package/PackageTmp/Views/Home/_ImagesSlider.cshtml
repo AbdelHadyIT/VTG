@@ -1,0 +1,139 @@
+﻿@using VTG.Models
+@model VTG.Models.TouristRegion
+
+@{ 
+    dbVTGEntities db = new dbVTGEntities();
+}
+@if (Model == null)
+{
+    <div id="imagesSlider" class="images-slider">
+        <!-- start slider -->
+        <div id="fwslider">
+            <div class="slider_container">
+                <div class="slide">
+                    <!-- Slide image -->
+                    <img src="~/RegionImages/syria.gif" alt="" style="height: 550px" />
+                    <!-- /Slide image -->
+                    <!-- Texts container -->
+                    <div class="slide_content">
+                        <div class="slide_content_wrap">
+                            <!-- Text title -->
+                            <h4 class="title" style="color:darkslateblue">most beatuiful country in the world</h4>
+                            <!-- /Text title -->
+                            <!-- Text description -->
+                        </div>
+                    </div>
+                    <!-- /Texts container -->
+                </div>
+                <!-- /Duplicate to create more slides -->
+                <!--/slide -->
+            </div>
+            <div class="timers"> </div>
+            <div class="slidePrev"><span> </span></div>
+            <div class="slideNext"><span> </span></div>
+        </div>
+        <!--/slider -->
+    </div>
+}
+else
+{
+    var landmarks = Model.Landmarks;
+    bool imagesExsistsInLandmark = false;
+    
+
+    <div id="imagesSlider" class="images-slider">
+        <!-- start slider -->
+        <div id="fwslider">
+            <div class="slider_container">
+                <div class="slide">
+                    <!-- Slide image -->
+                    <img src="@Url.Content(Model.RegionImage)" alt="" class="" style="height: 550px" />
+                    <!-- /Slide image -->
+                    <!-- Texts container -->
+                    <div class="slide_content">
+                        <div class="slide_content_wrap">
+                            <!-- Text title -->
+                            <h4 class="title" style="color:darkslateblue">@Model.Name</h4>
+                            <!-- /Text title -->
+                            <!-- Text description -->
+                            <p class="description" style="color:darkslateblue">@Model.Details.Substring(0, Math.Min(Model.Details.Length, 600)) .... </p>
+                            <!-- /Text description -->
+                        </div>
+                    </div>
+                    <!-- /Texts container -->
+                </div>
+                @foreach (var landmark in landmarks)
+                {
+                    if (landmark.Images.Count > 0)
+                    {
+                        imagesExsistsInLandmark = true;
+                    }
+                    foreach (var image in landmark.Images)
+                    {
+                        <div class="slide">
+                            <!-- Slide image -->
+                            <img src="@Url.Content(image.Photo)" alt="" class="" style="height: 550px" />
+                            <!-- /Slide image -->
+                            <!-- Texts container -->
+                            <div class="slide_content">
+                                <div class="slide_content_wrap">
+                                    <!-- Text title -->
+                                    <h4 class="title">@landmark.Name</h4>
+                                    <!-- /Text title -->
+                                    <!-- Text description -->
+                                    <p class="description" style="">@landmark.Description.Substring(0, Math.Min(landmark.Description.Length, 600)) .... </p>
+                                    <!-- /Text description -->
+                                </div>
+                            </div>
+                            <!-- /Texts container -->
+                        </div>
+                    }
+                }
+                @if (Model.Landmarks.Count == 0 || !imagesExsistsInLandmark)
+                {
+                    <div class="slide">
+                        <!-- Slide image -->
+                        <img src="@Url.Content(Model.RegionImage)" alt="" class="" style="height: 550px" />
+                        <!-- /Slide image -->
+                        <!-- Texts container -->
+                        <div class="slide_content">
+                            <div class="slide_content_wrap">
+                                <!-- Text title -->
+                                <h4 class="title" style="color:darkslateblue">@Model.Name</h4>
+                                <!-- /Text title -->
+                                <!-- Text description -->
+                                
+                                <p class="description" style="color:darkslateblue">@Model.Details.Substring(0, Math.Min(Model.Details.Length, 600)) .... </p>
+                                <!-- /Text description -->
+                            </div>
+                        </div>
+                        <!-- /Texts container -->
+                    </div>
+                <!--/slide -->
+                }
+            </div>
+            <div class="timers"> </div>
+            <div class="slidePrev"><span> </span></div>
+            <div class="slideNext"><span> </span></div>
+        </div>
+        <!--/slider -->
+    </div>
+}
+<script>
+    function toggleMapSlider(element) {
+        var images_slider = document.getElementById("imagesSlider");
+        var map = document.getElementById("map");
+        if (map != null) {
+            if (map.style.display == 'none') {
+                images_slider.style.display = 'none';
+                map.style.display = 'block';
+                element.value = "Show info on slider";
+            }
+            else {
+                images_slider.style.display = 'block';
+                map.style.display = 'none';
+                element.value = "Show on the map";
+            }
+        }
+    }
+</script>

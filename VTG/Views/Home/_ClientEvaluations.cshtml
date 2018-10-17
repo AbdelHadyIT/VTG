@@ -1,0 +1,80 @@
+﻿@using VTG.Models
+@model IEnumerable<VTG.Models.Evaluation>
+
+@{
+    dbVTGEntities db = new dbVTGEntities();
+}
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+<script>
+    function sendEvaluation() {
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: "json",
+            type: "POST",
+            url: '@Url.Content("~/Home/AddEvaluate?regionId="+ViewBag.regionId)',
+            data: JSON.stringify({ text: document.getElementById("TextOfEvaluate").value.toString() }),
+            success: function (data) {
+                if (data == true) {
+                    location.reload(true);
+                } else {
+                    alert("please select region...");
+                }
+            },
+            error: function () {
+                alert("error occure when user evaluate...");
+            }
+        });
+    }
+    $(document).ready(function () {
+        $('.bxslider').bxSlider({
+            auto: true,
+            autoControls: true,
+            minSlides: 4,
+            maxSlides: 4,
+            slideWidth: 450,
+            slideMargin: 10
+        });
+    });
+
+</script>
+
+
+<div class="clients">
+    <div class="form-group" style="margin-top:10px">
+        <div class="col-md-12">
+            <textarea class="form-control text-box multi-line" id="TextOfEvaluate" name="Text" type="text" value=""></textarea>
+            <span class="field-validation-valid text-danger" data-valmsg-for="Text" data-valmsg-replace="true"></span>
+        </div>
+        <div class="text-center">
+            <a class="btn" onclick="sendEvaluation()" style="margin-top:10px;color: white">add your opinion</a>
+        </div>
+    </div>
+    <div class="client-head">
+
+        <h3>Evaluate Tourists</h3>
+        <span>what tourists say about this region!</span>
+    </div>
+    <div class="client-grids">
+        <ul class="bxslider">
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    var user = db.AspNetUsers.Find(item.TouristId);
+                    <li class="bx-wrapper">
+                        <p>@item.Text</p>
+                        <a href="#">@user.UserName</a>
+                        <span>@user.Country</span>
+                        <label>@item.OccuredAt.Month/@item.OccuredAt.Day/@item.OccuredAt.Year </label>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

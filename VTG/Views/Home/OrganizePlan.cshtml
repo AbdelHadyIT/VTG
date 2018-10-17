@@ -1,0 +1,183 @@
+﻿@using VTG.Models
+@model VTG.Models.TourPlan
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_VoyageLayout.cshtml";
+    dbVTGEntities db = new dbVTGEntities();
+    var organizes = Model.Organizes.OrderBy(o => o.Rank);
+}
+<script>
+    let set = new Set();
+    var organize;
+    let RankSet = new Set();
+</script>
+@foreach (var item in organizes)
+{
+    var touristRegion = db.TouristRegions.Find(item.RegionId);
+    <script>
+        organize = {rank: @item.Rank, regionId: @item.RegionId, lat: @touristRegion.Lat,
+            lng: @touristRegion.Lng, name: '@touristRegion.Name', address: '@touristRegion.Address',
+            type: '@touristRegion.Type', geoType: '@touristRegion.GeoType' };
+        set.add(organize);
+        RankSet.add(@item.RegionId);
+    </script>
+}
+<!----start-images-slider---->
+<!-- The actual snackbar -->
+<link href="~/Content/Voyage css/Toast.css" rel="stylesheet" />
+<div id="snackbar">Some text some message..</div>
+<div id="controls">
+    <select id="mode" onChange="updateMode()" class="custom-select">
+        <option value="driving">Driving</option>
+        <option value="walking" selected="selected">Walking</option>
+    </select><br />
+</div>
+<div id="partial_view">
+    @Html.Action("_ImagesSlider")
+</div>
+<div id="map" class="google-map" style="display: none"></div>
+
+<script src="@Url.Content("~/Scripts/NearestNeighborTSPAlgorithm.js")"></script>
+<script src="@Url.Content("~/Scripts/ShowPlanOnMapScript.js")"></script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGZTRa6F2kw7N83If5W64GAesn5Q6Dvmw&libraries=places&callback=initMap">
+</script>
+
+<!----start-find-place---->
+<div class="find-place">
+    <div class="wrap">
+        <div class="p-h">
+            <span>FIND</span>
+            <label>PLACES</label>
+        </div>
+        <!---strat-date-piker---->
+        
+        <!---/End-date-piker---->
+        <div class="p-ww">
+            @using (Html.BeginForm("OrganizePlan", "Home", FormMethod.Get))
+            {
+                <input type="text" id="tourPlanId" name="tourPlanId" value="@Model.Id"style="display:none" />
+                <input id="search" name="search" class="dest" type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">
+                <input type="submit" value="Search" id="searchBox"/>
+            }
+        </div>
+        <div class="clear"> </div>
+    </div>
+</div>
+<!----//End-find-place---->
+<!----start-offers---->
+<div class="offers">
+    <div class="offers-head">
+        <h3>Best Places</h3>
+        <p>in syria can be found here, where the most beatuiful country!</p>
+        <a class="btn" onclick="updatePlanOnServer()" href="#stay_here" >save changes</a>
+        <a class="btn" onclick="toggleMapSlider(this)" href="#stay_here" style="color: white;">Show Plan on Map</a>
+    </div>
+    <!-- start content_slider -->
+    <!-- FlexSlider -->
+    <!-- jQuery -->
+    <link rel="stylesheet" href="~/Content/Voyage css/flexslider.css" type="text/css" media="screen" />
+    <!-- FlexSlider -->
+    <script defer src="~/Scripts/Voyage js/jquery.flexslider.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            SyntaxHighlighter.all();
+        });
+        $(window).load(function () {
+            $('.flexslider').flexslider({
+                animation: "slide",
+                animationLoop: true,
+                itemWidth: 250,
+                itemMargin: 5,
+                start: function (slider) {
+                    $('body').removeClass('loading');
+                }
+            });
+        });
+    </script>
+    <script src="~/Scripts/Voyage js/shCore.js"></script>
+    <script src="~/Scripts/Voyage js/shBrushJScript.js"></script>
+    <!-- Place somewhere in the <body> of your page -->
+    <div>
+        @Html.Action("_TouristRegionsSlider")
+    </div>
+    <!-- //End content_slider -->
+    <script>
+            function toggleOrganize(checkbox, regionId) {
+                if (checkbox.checked) {
+                    RankSet.add(regionId);
+                } else {
+                    RankSet.delete(regionId);
+                }
+            }
+            function reCompute(data){
+                set = new Set(data);
+                updateMatrix();
+            }
+            function updatePlanOnServer() {
+                $.ajax({
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    url: '@Url.Content("~/Home/OrganizePlanAddRegion?tourPlanId="+ Model.Id.ToString() )',
+                    data: JSON.stringify(Array.from(RankSet)),
+                    success: reCompute,
+                    error:function (){
+                        alert("error");
+                    }
+                });//.success(reCompute(data));
+            }
+
+    </script>
+</div>
+<!----//End-offers---->
+<!---start-holiday-types---->
+<script>
+    function filter(value){
+        console.log("filter");
+        document.getElementById("search").value = value;
+        document.getElementById("searchBox").click();
+    }
+</script>
+<div class="holiday-types">
+    <div class="wrap">
+        <div class="holiday-type-head">
+            <h3>Place Type</h3>
+            <span>get explore your dream to travel syria!</span>
+        </div>
+        <div class="holiday-type-grids">
+            <div class="holiday-type-grid" onclick="filter('Mountainous')">
+                <span class="icon1"> </span>
+                <a href="#">Mountainous</a>
+            </div>
+            <div class="holiday-type-grid" onclick="filter('Hotel')">
+                <span class="icon2"> </span>
+                <a href="#">City Breaks</a>
+            </div>
+            <div class="holiday-type-grid" onclick="filter('Resturant')">
+                <span class="icon3"> </span>
+                <a href="#">Food, Driks</a>
+            </div>
+            <div class="holiday-type-grid" onclick="filter('Archaeological')">
+                <span class="icon4"> </span>
+                <a href="#">History</a>
+            </div>
+            <div class="holiday-type-grid" onclick="filter('Desert')">
+                <span class="icon5"> </span>
+                <a href="#">Desert</a>
+            </div>
+            <div class="holiday-type-grid" onclick="filter('Coastal')">
+                <span class="icon6"> </span>
+                <a href="#">Coastal</a>
+            </div>
+            <div class="clear"> </div>
+        </div>
+    </div>
+</div>
+<!---//End-holiday-types---->
+<!----//End-images-slider---->
+<!----start-clients---->
+<div id="_clients">
+    @Html.Action("_ClientEvaluations")
+</div>
+<!----//End-clients---->

@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>@Page.Title</title>        
+        <link href="~/Content/Voyage css/style.css" rel="stylesheet" />
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+        
+             <script src="~/Scripts/Voyage js/jquery.min.js"></script>
+            <!---script---->
+            <link rel="stylesheet" href="~/Content/Voyage css/jquery.bxslider.css" type="text/css" />
+              <script src="~/Scripts/Voyage js/jquery.bxslider.js"></script>
+            <!---//script---->
+            <!---smoth-scrlling---->
+
+            <!---//smoth-scrlling---->
+            <!----start-top-nav-script---->
+            <script type="text/javascript" src="~/Scripts/Voyage js/flexy-menu.js"></script>
+            <script type="text/javascript">$(document).ready(function(){$(".flexy-menu").flexymenu({speed: 400,type: "horizontal",align: "right"});});</script>
+            <!----//End-top-nav-script---->
+            <!---webfonts---->
+            <!---webfonts---->
+            <!--start slider -->
+            <link rel="stylesheet" href="~/Content/Voyage css/fwslider.css" media="all">
+            <script src="~/Scripts/Voyage js/jquery-ui.min.js"></script>
+            <script src="~/Scripts/Voyage js/css3-mediaqueries.js"></script>
+            <script src="~/Scripts/Voyage js/fwslider.js"></script>
+            <!--end slider -->
+            <!---calender-style---->
+            <link rel="stylesheet" href="~/Content/Voyage css/jquery-ui.css" />
+            <!---//calender-style---->
+
+        </head>
+    <body>
+        <!----start-top-header----->
+        <div class="top-header" id="header">
+            <div class="wrap">
+                @Html.Partial("_LoginPartial")
+                <div class="top-header-right">
+                </div>
+                <div class="clear"> </div>
+            </div>
+        </div>
+        <!----//End-top-header----->
+        <!---start-header---->
+        <div class="header">
+            <div class="wrap">
+                <!--- start-logo---->
+                <div class="logo">
+                    <a href="/Home/Index"><img src="~/Vimages/logo.png" title="Home" /></a>
+                </div>
+                <!--- //End-logo---->
+                <!--- start-top-nav---->
+                <div class="top-nav">
+                    <ul class="flexy-menu thick orange">
+                        <li class="active">@Html.ActionLink("Home","Index","Home",null,null)</li>
+                        <li>@Html.ActionLink("Plans","Plans","Home",null,null)</li>
+                        <li>@Html.ActionLink("Organize Plan", "OrganizePlan", "Home",null,null)</li>
+                        <li>@Html.ActionLink("Contact","Contact","Home",null,null)</li>
+                        @*<li>@Html.ActionLink("Blog","Blog","Home",null,null)</li>*@
+                    </ul>
+                    <div class="search-box">
+                        <div id="sb-search" class="sb-search">
+                            @using (Html.BeginForm("index", "Home", FormMethod.Get))
+                            {
+                                <input class="sb-search-input" placeholder="Enter your search term..." type="search" name="searchText" id="searchText">
+                                <input class="sb-search-submit" type="submit" value="">
+                                <span class="sb-icon-search"> </span>
+                            }
+                        </div>
+                    </div>
+                    <!----search-scripts---->
+                    <script src="~/Scripts/Voyage js/modernizr.custom.js"></script>
+                    <script src="~/Scripts/Voyage js/classie.js"></script>
+                    <script src="~/Scripts/Voyage js/uisearch.js"></script>
+                    <script>
+							new UISearch( document.getElementById( 'sb-search' ) );
+                    </script>
+                    <!----//search-scripts---->
+                </div>
+                <!--- //End-top-nav---->
+                <div class="clear"> </div>
+            </div>
+            <!---//End-header---->
+        </div>
+        
+
+        @RenderBody()
+        <!----start-footer---->
+        <div class="footer">
+            <div class="wrap">
+                <div class="footer-grids">
+                    @*<div class="footer-grid Newsletter">
+                        <h3>News letter </h3>
+                        <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore.</p>
+                        <form>
+                            <input type="text" placeholder="Subscribes.." /> <input type="submit" value="GO" />
+                        </form>
+                    </div>*@
+                    @*<div class="footer-grid Newsletter">
+                        <h3>Latest News </h3>
+                        <div class="news">
+                            <div class="news-pic">
+                                <img src="~/Vimages/f01.jpg" title="news-pic1" />
+                            </div>
+                            <div class="news-info">
+                                <a href="#">Postformat Gallery: Multiple images</a>
+                                <span>December 12, 2012 - 9:11 pm</span>
+                            </div>
+                            <div class="clear"> </div>
+                        </div>
+                        <div class="news">
+                            <div class="news-pic">
+                                <img src="~/Vimages/f01.jpg" title="news-pic1" />
+                            </div>
+                            <div class="news-info">
+                                <a href="#">Postformat Gallery: Multiple images</a>
+                                <span>December 12, 2012 - 9:11 pm</span>
+                            </div>
+                            <div class="clear"> </div>
+                        </div>
+                    </div>*@
+                    @*<div class="footer-grid tags">
+                        <h3>Tags</h3>
+                        <ul>
+                            <li><a href="#">Agent login</a></li>
+                            <li><a href="#">Customer Login</a></li>
+                            <li><a href="#">Not a Member?</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">New Horizons</a></li>
+                            <li><a href="#">Lanscape</a></li>
+                            <li><a href="#">Tags</a></li>
+                            <li><a href="#">Nice</a></li>
+                            <li><a href="#">Some</a></li>
+                            <li><a href="#">Portrait</a></li>
+                            <div class="clear"> </div>
+                        </ul>
+                    </div>*@
+                    <div class="footer-grid address">
+                        <h3>Address </h3>
+                        <div class="address-info">
+                            <span>Syria, Homs, </span>
+                            <span>albaath University,.</span>
+                            <span><i>E-mail:</i><a href="#Stay_here">m.refaee123580@gmail.com</a></span>
+                        </div>
+                        <div class="footer-social-icons">
+                            <ul>
+                                <li><a class="face1 simptip-position-bottom simptip-movable" data-tooltip="facebook" href="#"><span> </span></a></li>
+                                <li><a class="twit1 simptip-position-bottom simptip-movable" data-tooltip="twitter" href="#"><span> </span></a></li>
+                                <li><a class="tub1 simptip-position-bottom simptip-movable" data-tooltip="tumblr" href="#"><span> </span></a></li>
+                                <li><a class="pin1 simptip-position-bottom simptip-movable" data-tooltip="pinterest" href="#"><span> </span></a></li>
+                                <div class="clear"> </div>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="clear"> </div>
+                </div>
+            </div>
+        </div>
+        <!----//End-footer---->
+        <!---start-subfooter---->
+        @*<div class="subfooter">
+            <div class="wrap">
+                <ul>
+                    <li><a href="index.html">Home</a><span>::</span></li>
+                    <li><a href="destinations.html">Destinations</a><span>::</span></li>
+                    <li><a href="criuses.html">Criuses</a><span>::</span></li>
+                    <li><a href="destinations.html">Specils</a><span>::</span></li>
+                    <li><a href="destinations.html">Holidays</a><span>::</span></li>
+                    <li><a href="blog.html">Blog</a><span>::</span></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <div class="clear"> </div>
+                </ul>
+                <p class="copy-right">Template by <a href="#">Virtual Tour Guide</a></p>
+                <a class="to-top" href="#header"><span> </span> </a>
+            </div>
+        </div>*@
+        <!---//End-subfooter---->
+        
+        
+        <script src="~/Scripts/Voyage js/jquery-ui.js"></script>
+        
+        @RenderSection("scripts", required: false)
+    </body>
+</html>

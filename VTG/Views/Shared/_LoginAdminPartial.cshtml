@@ -1,0 +1,88 @@
+﻿@using Microsoft.AspNet.Identity
+@using VTG.Models;
+@if (Request.IsAuthenticated)
+{
+    var db = new ApplicationDbContext();
+    var userid = User.Identity.GetUserId();
+    var CurrentUser = db.Users.Where(a => a.Id == userid).SingleOrDefault();
+    <ul class="nav navbar-nav my-0 nav-link">
+
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                <span class="glyphicon"></span> <strong>Hello : @CurrentUser.UserName</strong>
+                <span class="glyphicon glyphicon-chevron-down"></span>
+
+            </a>
+            <ul class="dropdown-menu navbar-user" style="left: -183px;">
+                <li>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <p class="text-center">
+                                <div id="result" class="card-img-bottom">
+                                </div>
+                                @*<img id="result" class="result img-responsive img-orientation img-cir" src="@Url.Content(CurrentUser.ProfileImage)" />*@
+                            </p>
+                        </div>
+                        <div class="col-lg-8">
+                            <p class="text-left">
+                                <strong>@CurrentUser.UserName</strong>
+                            </p>
+                            @*@Html.ActionLink("profile", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "btn btn-primary btn-block" })
+                            @Html.ActionLink("tours", "Index", "Voyage", null, new { @class = "btn btn-primary btn-block" })*@
+                        </div>
+                    </div>
+                </li>
+
+                <li class="dropdown-divider"></li>
+                <li>
+                    <div>
+                        <div class="row">
+                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
+                                    <p>
+                                        <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-danger btn-block">Log off</a>
+                                    </p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+        </li>
+    </ul>
+    <script src = "@Url.Content("~/Scripts/exif.min.js")" ></script >
+    <script src = "@Url.Content("~/Scripts/load-image.min.js")" ></script >
+    <script src = "@Url.Content("~/Scripts/load-image-scale.min.js")" ></script >
+    <script src = "@Url.Content("~/Scripts/load-image-orientation.min.js")"></script >
+    <script src="@Url.Content("~/Scripts/jquery-3.0.0.min.js")"></script >
+
+    <script>
+        $(document).ready(function () {
+            window.loadImage("@Url.Content(CurrentUser.ProfileImage)", function (img) {
+                if (img.type === "error") {
+                    console.error("couldn't load image:", img);
+                } else {
+                    window.EXIF.getData(img, function () {
+                        var orientation = EXIF.getTag(this, "Orientation");
+                        var canvas = window.loadImage.scale(img, { orientation: orientation || 0, canvas: true });
+                        canvas.classList.toggle("img-thumbnail");
+                        canvas.classList.toggle("rounded-circle");
+                       // document.getElementById("#result").appendChild(canvas);
+                        $("#result").append(canvas);
+
+                    });
+                }
+            });
+        })
+    </script>
+}
+else
+{
+    <ul class="nav navbar-nav my-0">
+        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
+        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class= "nav-link" })</li>
+    </ul>
+}

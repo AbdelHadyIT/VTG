@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="dbVTGModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="256" />
+    <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+    <Property Name="PasswordHash" Type="nvarchar(max)" />
+    <Property Name="SecurityStamp" Type="nvarchar(max)" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" />
+    <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="datetime" />
+    <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="FName" Type="nvarchar(max)" />
+    <Property Name="LName" Type="nvarchar(max)" />
+    <Property Name="Gender" Type="nvarchar(max)" />
+    <Property Name="ProfileImage" Type="nvarchar(max)" />
+    <Property Name="Birthday" Type="datetime" />
+    <Property Name="Country" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Evaluations">
+    <Key>
+      <PropertyRef Name="TouristId" />
+      <PropertyRef Name="RegionId" />
+    </Key>
+    <Property Name="TouristId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="RegionId" Type="bigint" Nullable="false" />
+    <Property Name="Rating" Type="int" />
+    <Property Name="OccuredAt" Type="datetime" StoreGeneratedPattern="Computed" Nullable="false" />
+    <Property Name="Text" Type="ntext" />
+  </EntityType>
+  <EntityType Name="Images">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="LandmarkId" />
+      <PropertyRef Name="RegionId" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Photo" Type="nvarchar" MaxLength="255" />
+    <Property Name="LandmarkId" Type="bigint" Nullable="false" />
+    <Property Name="RegionId" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Landmarks">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="RegionId" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Description" Type="ntext" />
+    <Property Name="RegionId" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Organize">
+    <Key>
+      <PropertyRef Name="TourPlanId" />
+      <PropertyRef Name="RegionId" />
+      <PropertyRef Name="ToursitId" />
+    </Key>
+    <Property Name="Rank" Type="int" Nullable="false" />
+    <Property Name="TourPlanId" Type="bigint" Nullable="false" />
+    <Property Name="RegionId" Type="bigint" Nullable="false" />
+    <Property Name="ToursitId" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TouristRegions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="Lat" Type="float" Nullable="false" />
+    <Property Name="Lng" Type="float" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="ReservationPrice" Type="float" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" />
+    <Property Name="Details" Type="ntext" />
+    <Property Name="Rating" Type="float" />
+    <Property Name="GeoType" Type="nvarchar" MaxLength="50" />
+    <Property Name="RegionImage" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="TourPlans">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="TouristId" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Balance" Type="float" />
+    <Property Name="TouristId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="GeoType" Type="nvarchar" MaxLength="50" />
+    <Property Name="FlightDuration" Type="int" />
+    <Property Name="Name" Type="nvarchar(max)" />
+    <Property Name="LName" Type="nvarchar(max)" />
+    <Property Name="PlanImage" Type="nvarchar(max)" />
+    <Property Name="Country" Type="nvarchar(max)" />
+    <Property Name="Email" Type="nvarchar" MaxLength="256" />
+  </EntityType>
+  <Association Name="FK_Evaluations_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="Evaluations" Type="Self.Evaluations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Evaluations">
+        <PropertyRef Name="TouristId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Evaluations_TouristRegions">
+    <End Role="TouristRegions" Type="Self.TouristRegions" Multiplicity="1" />
+    <End Role="Evaluations" Type="Self.Evaluations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TouristRegions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Evaluations">
+        <PropertyRef Name="RegionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Images_Landmarks">
+    <End Role="Landmarks" Type="Self.Landmarks" Multiplicity="1" />
+    <End Role="Images" Type="Self.Images" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Landmarks">
+        <PropertyRef Name="Id" />
+        <PropertyRef Name="RegionId" />
+      </Principal>
+      <Dependent Role="Images">
+        <PropertyRef Name="LandmarkId" />
+        <PropertyRef Name="RegionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_land_mark_Tourist_Region">
+    <End Role="TouristRegions" Type="Self.TouristRegions" Multiplicity="1" />
+    <End Role="Landmarks" Type="Self.Landmarks" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TouristRegions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Landmarks">
+        <PropertyRef Name="RegionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Organize_Tourist_Region">
+    <End Role="TouristRegions" Type="Self.TouristRegions" Multiplicity="1" />
+    <End Role="Organize" Type="Self.Organize" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TouristRegions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Organize">
+        <PropertyRef Name="RegionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Organize_TourPlans">
+    <End Role="TourPlans" Type="Self.TourPlans" Multiplicity="1" />
+    <End Role="Organize" Type="Self.Organize" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TourPlans">
+        <PropertyRef Name="Id" />
+        <PropertyRef Name="TouristId" />
+      </Principal>
+      <Dependent Role="Organize">
+        <PropertyRef Name="TourPlanId" />
+        <PropertyRef Name="ToursitId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TourPlans_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="TourPlans" Type="Self.TourPlans" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TourPlans">
+        <PropertyRef Name="TouristId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="dbVTGModelStoreContainer">
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Evaluations" EntityType="Self.Evaluations" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Landmarks" EntityType="Self.Landmarks" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Organize" EntityType="Self.Organize" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TouristRegions" EntityType="Self.TouristRegions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TourPlans" EntityType="Self.TourPlans" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Evaluations_AspNetUsers" Association="Self.FK_Evaluations_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Evaluations" EntitySet="Evaluations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Evaluations_TouristRegions" Association="Self.FK_Evaluations_TouristRegions">
+      <End Role="TouristRegions" EntitySet="TouristRegions" />
+      <End Role="Evaluations" EntitySet="Evaluations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Images_Landmarks" Association="Self.FK_Images_Landmarks">
+      <End Role="Landmarks" EntitySet="Landmarks" />
+      <End Role="Images" EntitySet="Images" />
+    </AssociationSet>
+    <AssociationSet Name="FK_land_mark_Tourist_Region" Association="Self.FK_land_mark_Tourist_Region">
+      <End Role="TouristRegions" EntitySet="TouristRegions" />
+      <End Role="Landmarks" EntitySet="Landmarks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Organize_Tourist_Region" Association="Self.FK_Organize_Tourist_Region">
+      <End Role="TouristRegions" EntitySet="TouristRegions" />
+      <End Role="Organize" EntitySet="Organize" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Organize_TourPlans" Association="Self.FK_Organize_TourPlans">
+      <End Role="TourPlans" EntitySet="TourPlans" />
+      <End Role="Organize" EntitySet="Organize" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TourPlans_AspNetUsers" Association="Self.FK_TourPlans_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="TourPlans" EntitySet="TourPlans" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

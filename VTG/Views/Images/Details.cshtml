@@ -1,0 +1,40 @@
+﻿@model VTG.Models.Image
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/adminl_ayout.cshtml";
+}
+<div class="container body-content">
+    <h2>Details</h2>
+
+    <div>
+        <h4>Image</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Photo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Photo)
+                @if (Model.Photo != "")
+                {
+                    <img src="@Url.Content(@Model.Photo)" alt="Image" class="img-fluid" />
+                }                
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Landmark.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Landmark.Name)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { imageId = Model.Id , landmarkId = Model.LandmarkId, regionId = Model.RegionId }) |
+        @Html.ActionLink("Back to List", "Index" , new { landmarkId = Model.LandmarkId , regionId = Model.RegionId })
+    </p>
+</div>

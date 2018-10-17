@@ -1,0 +1,101 @@
+﻿@model VTG.Models.TouristRegion
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/adminl_ayout.cshtml";
+}
+<div class="container body-content">
+    <h2>Details</h2>
+
+    <div>
+        <h4>TouristRegion</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.RegionImage)
+            </dt>
+            <dd>
+                @if(Model.RegionImage != null)
+                {
+                    <img src="@Url.Content(Model.RegionImage)" class="img-fluid" />
+                }
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Lat)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Lat)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Lng)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Lng)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Type)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Type)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ReservationPrice)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ReservationPrice)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Details)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Details)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Rating)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Rating)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.GeoType)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.GeoType)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>

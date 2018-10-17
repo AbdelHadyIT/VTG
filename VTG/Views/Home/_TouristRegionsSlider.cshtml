@@ -1,0 +1,67 @@
+﻿@model  IEnumerable<VTG.Models.TouristRegion>
+@{ 
+    int i = 0;
+}
+<section class="slider">
+    <div class="flexslider carousel">
+        <ul class="slides">
+            
+            @foreach (var item in Model)
+            {
+                <li>
+                    @if (item.RegionImage != null)
+                    {
+                        <img src="@Url.Content(item.RegionImage)" />
+                    }
+                    <!----place-caption-info---->
+                    <div class="caption-info">
+                        <div class="caption-info-head">
+                            <div class="caption-info-head-left">
+                                <h4>
+                                    @Ajax.ActionLink(@item.Name, "OrganizePlan", "Home", new { regionId = item.Id , TourPlanId = ViewBag.tourPlanId }, new AjaxOptions { UpdateTargetId = "partial_view", HttpMethod = "POST" })
+                                </h4>
+                                <span></span>
+                            </div>
+                            <div class="caption-info-head-right">
+
+                                <input type="checkbox" onchange="toggleOrganize(this, @item.Id)" @ViewBag.check[i] />
+                            </div>
+                            <div class="clear">
+                                <span>Address: @item.Address</span><br />
+                                <span>Geographical type:@item.GeoType</span><br />
+                                <span>type: @item.Type </span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!----//place-caption-info---->
+                </li>
+                i++;
+            }
+            <li style="display:none">
+                <!----place-caption-info---->
+                <div class="caption-info" style="display:none">
+                    <div class="caption-info-head">
+                        <div class="caption-info-head-left">
+                            <h4>
+                                weafweq
+                            </h4>
+                            <span></span>
+                        </div>
+                        <div class="caption-info-head-right">
+                        </div>
+                        <div class="clear">
+                            <span>Address: </span><br />
+                            <span>Geographical type:</span><br />
+                            <span>type:  </span>
+                        </div>
+
+                    </div>
+                </div>
+                <!----//place-caption-info---->
+            </li>
+
+        </ul>
+    </div>
+
+</section>

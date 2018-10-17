@@ -1,0 +1,79 @@
+﻿@model VTG.Models.Image
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/adminl_ayout.cshtml";
+}
+<div class="container body-content">
+    <h2>Create</h2>
+    <div class="form-horizontal">
+        <div class="alert alert-warning" style="display:none" id="error">
+            <span id="verror"></span>
+        </div>
+    </div>
+    @using (Html.BeginForm("Create","Images",FormMethod.Post,new { enctype = "multipart/form-data" , @class = "form-horizontal" , role = "form"}))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Image</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Photo, "Photos",htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <label class="btn btn-primary btn-blok">
+                        Browse&hellip;<input type="file" id="photos" name="photos" style="display: none" multiple />
+                    </label>
+                    @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @Html.HiddenFor(model => model.LandmarkId , new { value = ViewBag.LandmarkId })
+            @Html.HiddenFor(model => model.RegionId , new { value = ViewBag.RegionId })
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index", new { landmarkId = ViewBag.LandmarkId , regionId = ViewBag.RegionId })
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    //$(function () {
+
+    //    $("#save").click(function () {
+
+    //        if ($("#photos").val() == "") {
+
+
+    //            $("#error").fadeIn();
+    //            $("#verror").append("please choose an image");
+    //            return false;
+    //        }
+
+    //        var filename = document.getElementById("#photos").value;
+    //        var extimg = filename.substr(filename.lastIndexOf('.') + 1);
+    //        validext = ['jpg', 'png', 'gif', 'bmp'];
+    //        if ($.inArray(extimg, validext) == -1) {
+    //            $("#error").fadeIn();
+    //            $("#verror").append("please choose a valid extintion image");
+    //            return false;
+    //        }
+
+    //        var filesize = document.getElementById("myim").files[0].size / 1024 / 1024;
+    //        if (filesize > 2) {
+    //            $("#error").fadeIn();
+    //            $("#verror").append("please choose image size less than 2 MB");
+    //            return false;
+    //        }
+    //    })
+    //})
+  </script>

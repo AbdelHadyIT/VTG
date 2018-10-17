@@ -1,0 +1,114 @@
+﻿h2 {
+    margin-top: 80px;
+}
+
+/*for display image.jpg in correct oriantaion*/
+.img-orientation{
+    image-orientation : from-image;
+}
+/*for display image as circle*/
+.img-rec{
+    clip-path: inset(30px 10px 10px);
+}
+.img-cir{
+    /*-webkit-clip-path:circle(100px at 50% 50%);*/
+    clip-path: circle(40px at 50% 50%);
+}
+
+/*style for navbar*/
+.vtg-navbar{
+    background-color: #109173;
+    border-color: #46675f;
+}
+/*.rotate180 {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}*/
+
+.logo-style {
+    padding: 3px;
+    clip-path: circle(20.5925px at 50% 50%);
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.map-content {
+    min-height: 500px;
+    max-height: 600px;
+    background-color: chartreuse;
+    margin-top: 30px;
+    border-color:aqua;
+    border:solid;
+}
+
+.navbar-home {
+    border-color: #109173;
+    background-color: #109173;
+    color: #109173;
+}
+
+
+    .navbar-user {
+        padding: 4px 7px 2px 4px;
+        width: 350px;
+    }    
+}
+
+
+/*_loginPartial -> style for dropdon menu*/
+@media (min-width: 1200px) {
+    .navbar-user {
+        padding: 4px 7px 2px 4px;
+        width: 350px;
+    }
+}
+
+
+@media (min-width : 400px) {
+    .navbar-user {
+        padding: 4px 7px 2px 4px;
+        width: 300px;
+    }
+}
+
+
+ #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+        height: 30px;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+
+/*start style for TripPlanning*/
+
+/*end style for TripPlanning*/

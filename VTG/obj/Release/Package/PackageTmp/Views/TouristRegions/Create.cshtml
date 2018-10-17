@@ -1,0 +1,147 @@
+﻿@model VTG.Models.TouristRegion
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/adminl_ayout.cshtml";
+}
+<div class="container body-content">
+    <h2>Add</h2>
+
+    @using (Html.BeginForm("Create","TouristRegions",FormMethod.Post , new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <div class="container">
+                <h4>Tourist Region</h4>
+                <hr />
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <!--select type of region to show on the map-->
+                        <div class="form-group">
+                            <div class="">
+                                <select class="form-control" id="regiontype" name="regiontype">
+                                    <option selected="selected" value="all">All</option>
+                                    <option value="lodging">Hotel</option>
+                                    <option value="restaurant">Resturant</option>
+                                    <option value="museum">Museum</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control " } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Lat, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                @Html.EditorFor(model => model.Lat, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Lat, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Lng, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                @Html.EditorFor(model => model.Lng, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Lng, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                <select class="form-control" id="type" name="type">
+                                    <option selected="selected" value="hotel">Hotel</option>
+                                    <option value="restaurant">Resturant</option>
+                                    <option value="museum">Museum</option>
+                                    <option value="archaeological">Archeaological</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ReservationPrice, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                @Html.EditorFor(model => model.ReservationPrice, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ReservationPrice, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Details, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                @Html.EditorFor(model => model.Details, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                @Html.EditorFor(model => model.Rating, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <label class="btn btn-block btn-primary">
+                            Browse&hellip;<input type="file" id="regionImage" name="regionImage" style="display: none" />
+                        </label>
+                        
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.GeoType, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                @Html.DropDownList("GeoType",new List<SelectListItem> {
+                               new SelectListItem {Text = "Coastal Area" , Value = "coastal" , Selected = true },
+                               new SelectListItem {Text = "Mountainous Area" , Value = "mountanious" },
+                               new SelectListItem {Text = "Indoor Area" , Value = "indoor" },
+                               new SelectListItem {Text = "Desert Area" , Value = "desert"}
+                                },new { @class = "form-control"})
+                                @Html.ValidationMessageFor(model => model.GeoType, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Add" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                    <!--GOOGEL MAP-->
+                    <input id="pac-input" class="" type="text" placeholder="Search Box">
+                    <div id="mapp" class="col-lg-8 col-md-7 col-sm-6 map-content"></div>
+                </div>
+            </div>
+        </div>
+        <script src="/Scripts/addRegionMap.js"></script>
+        <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGZTRa6F2kw7N83If5W64GAesn5Q6Dvmw&libraries=places&callback=initMap">
+        </script>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>

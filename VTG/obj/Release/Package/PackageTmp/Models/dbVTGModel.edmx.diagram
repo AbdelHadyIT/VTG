@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8c6ef5085d5f4684ba0ec066f953cb77" Name="Diagram1" DisplayType="true" ZoomLevel="89">
+        <EntityTypeShape EntityType="dbVTGModel.AspNetUser" Width="1.5" PointX="1.125" PointY="2.375" />
+        <EntityTypeShape EntityType="dbVTGModel.TouristRegion" Width="1.5" PointX="7.125" PointY="5.75" />
+        <EntityTypeShape EntityType="dbVTGModel.Organize" Width="1.5" PointX="7.125" PointY="3" />
+        <AssociationConnector Association="dbVTGModel.FK_Organize_Tourist_Region" />
+        <EntityTypeShape EntityType="dbVTGModel.Landmark" Width="1.5" PointX="10.875" PointY="6.75" />
+        <AssociationConnector Association="dbVTGModel.FK_land_mark_Tourist_Region" />
+        <EntityTypeShape EntityType="dbVTGModel.Image" Width="1.5" PointX="10.375" PointY="3.625" />
+        <AssociationConnector Association="dbVTGModel.FK_Images_Landmarks" />
+        <EntityTypeShape EntityType="dbVTGModel.Evaluation" Width="1.5" PointX="4.5" PointY="7.125" />
+        <AssociationConnector Association="dbVTGModel.FK_Evaluations_AspNetUsers" />
+        <AssociationConnector Association="dbVTGModel.FK_Evaluations_TouristRegions" />
+        <EntityTypeShape EntityType="dbVTGModel.TourPlan" Width="1.5" PointX="3.75" PointY="2.5" />
+        <AssociationConnector Association="dbVTGModel.FK_TourPlans_AspNetUsers" />
+        <AssociationConnector Association="dbVTGModel.FK_Organize_TourPlans" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
